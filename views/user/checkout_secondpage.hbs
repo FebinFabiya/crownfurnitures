@@ -1,0 +1,289 @@
+
+
+<!--================shippind Address=================-->
+<div class="billing_details mt-5">
+    <div class="row">
+       
+            {{!-- {{#each getSelectedAddr}}
+            {{}}
+            {{#each this.delivery_address}} --}}
+
+            <div class="col-lg-8">
+                 <form  id="id-form" method="post">
+                <h3>ADD A NEW ADDRESS</h3>
+
+
+                <div class="row mt-2">
+
+                    <div class="col-md-12"><label class="labels">Name</label><input type="text" name="username"
+                            class="form-control" placeholder="first name"
+                            value="{{getSelectedAddr.delivery_address.name}}"></div>
+
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12"><label class="labels">Mobile Number</label><input type="text"
+                            name="phonenumber" class="form-control" placeholder="enter phone number"
+                            value="{{getSelectedAddr.delivery_address.phonenumber}}"></div>
+                    <div class="col-md-12"><label class="labels">Email ID</label><input type="text" name="email"
+                            class="form-control" placeholder="enter email id"
+                            value="{{getSelectedAddr.delivery_address.email}}"></div>
+                    <div class="col-md-12"><label class="labels">House Name</label><input type="text" name="house_name"
+                            class="form-control" placeholder="enter house name"
+                            value="{{getSelectedAddr.delivery_address.housename}}"></div>
+
+                    <div class="col-md-12"><label class="labels">Pincode</label><input type="number" name="pincode"
+                            class="form-control" placeholder="enter pincode"
+                            value="{{getSelectedAddr.delivery_address.pincode}}"></div>
+                    <div class="col-md-12"><label class="labels">Area</label><input type="text" name="area"
+                            class="form-control" placeholder="enter area"
+                            value="{{getSelectedAddr.delivery_address.area}}"></div>
+                    <div class="col-md-12"><label class="labels">City</label><input type="text" name="city"
+                            class="form-control" placeholder="enter city"
+                            value="{{getSelectedAddr.delivery_address.city}}"></div>
+
+
+
+                </div>
+                <div class="row mt-3">
+
+                    <div class="col-md-6"><label class="labels">State/Region</label><input type="text" name="state"
+                            class="form-control" value="{{getSelectedAddr.delivery_address.state_region}}"
+                            placeholder="state"></div>
+                    <div class="col-md-6"><label class="labels">Country</label><input type="text" name="country"
+                            class="form-control" placeholder="country"
+                            value="{{getSelectedAddr.delivery_address.country}}"></div>
+                </div>
+                <div class="mt-5 text-center"><input class="btn_3  profile-button"
+                        style="background-color: #ff3368; border:none " type="submit" value="Save Address"></div>
+
+           <input type="text" name="userId" value="{{userValue._id}}" hidden>
+            {{!-- {{/each}}
+            {{/each}} --}}
+            </div>
+            <div class="col-lg-4">
+                <div class="order_details_iner">
+                    <h3 class="mb-1">Order Details</h3>
+
+                    <table class="table table-borderless" style="background-color:#ecfdff ;">
+                        <thead>
+                            <tr>
+
+                                <th scope="col" colspan="2">Online Payment</th>
+                                {{!-- <th scope="col">Quantity</th> --}}
+                                {{!-- <th scope="col">Total</th> --}}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each orderSummary.products}}
+                            <tr>
+                                {{!-- <td colspan="2" style="font-weight: 100;"><span>{{pro_Id.name}}</span></td>
+                                <td style="font-weight: 100;">x {{this.quantity}}</td>
+                                <td style="font-weight: 100;"> <span>{{this.subtotal}}</span></td> --}}
+                            </tr>
+                            {{/each}}
+
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th scope="col" colspan="3">Total</th>
+
+                                <th scope="col">{{total}}</th>
+                            </tr>
+                            <tr>
+                                <th><button class="btn" type="submit">Checkout</button></th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+</div>
+</div>
+</section>
+
+
+
+{{!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    $("#id-form").submit((e) => {
+        e.preventDefault()
+        $.ajax({
+            url: '/delivery_address',
+            method: 'post',
+            data: $('#id-form').serialize(),
+            success: (response) => {
+                
+                if (response) {
+                    alert("Sucessfully Completed")
+                    razorpayPay(response)
+                } else {
+                    console.log("error occured")
+                }
+
+            }
+        })
+
+    })
+
+
+    function razorpayPay(order) {
+        console.log(order)
+           
+           var options = {
+               "key": "rzp_test_SzWMnEE64hUQBx", // Enter the Key ID generated from the Dashboard
+               "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+               "currency": "INR",
+               "name": "CROWN FURNITURES ",
+               "description": "FURNITURES Booking",
+               "image": "/images/crownchairlogo.PNG",
+               "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+               "handler": function (response) {
+                  // alert(response.razorpay_payment_id);
+                  // alert(response.razorpay_order_id);
+                   //alert(response.razorpay_signature);
+       
+console.log(response,'ajaxxx')
+                   verifyPayment(response, order)
+                   
+       
+               },
+               "prefill": {
+                     "name": "CROWN FURNITURES",
+                "email": "crownfurnitures@gmail.com",
+                    "contact": "1234567890"
+               },
+               "notes": {
+                   "address": "Razorpay Corporate Office"
+               },
+               "theme": {
+                   "color": "#ed1e07"
+               }
+           };
+       
+           var rzp1 = new Razorpay(options);
+           rzp1.open();
+       
+       
+       }
+       
+       
+       function verifyPayment(payment, order) {
+        console.log("order is =======",order)
+           
+           $.ajax({
+               url: '/verify-payment',
+               data: {
+                   payment,
+                   order
+               },
+               method: 'post',
+               success: (response) => {
+                   console.log(response,'999999999')
+                   if (response.status) {
+                       
+                       location.href = '/user/order_success'
+                   } else {
+                       alert("payment failed")
+                   }
+               }
+           })
+       }
+
+</script>
+
+{{!-- <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    $("#payment").submit((e) => {
+        e.preventDefault()
+        console.log("in ajax")
+        $.ajax({
+
+            url: '/delivery_address',
+            method: 'post',
+            data: $('#payment').serialize(),
+            success: (response) => {
+
+                console.log('responseeeeee', response)
+
+                if (response) {
+                    // alert("Sucessfully Completed")
+                    razorpayPay(response)
+                } else {
+                    console.log("error occured")
+                }
+
+            }
+        })
+
+    })
+
+
+
+    function razorpayPay(order) {
+        console.log(order, 'order')
+        var options = {
+            "key": 'rzp_test_SzWMnEE64hUQBx', // Enter the Key ID generated from the Dashboard
+            "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            "currency": "INR",
+            "name": "CROWN FURNITURES",
+            { { !-- "description": "Professional Event Management and Catering Services", --} }
+        "image": "//images/crownchairlogo.PNG",
+            "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                "handler": function (response) {
+                    // alert(response.razorpay_payment_id);
+                    //  alert(response.razorpay_order_id);
+                    //alert(response.razorpay_signature);
+
+
+                    verifyPayment(response, order)
+
+
+                },
+        "prefill": {
+            "name": "CROWN FURNITURES",
+                "email": "crownfurnitures@gmail.com",
+                    "contact": "1234567890"
+        },
+        "notes": {
+            "address": "Razorpay Corporate Office"
+        },
+        "theme": {
+            "color": "#ed1e07"
+        }
+    };
+
+    var rzp1 = new Razorpay(options);
+    rzp1.open();
+
+
+    }
+
+
+    function verifyPayment(payment, order) {
+
+        $.ajax({
+            url: '/verify-payment',
+            data: {
+                payment,
+                order
+            },
+            method: 'post',
+            success: (response) => {
+
+                if (response.status) {
+
+                    location.href = '/user/order_success'
+                } else {
+                    alert("payment failed")
+                }
+            }
+        })
+    }
+
+</script> --}}

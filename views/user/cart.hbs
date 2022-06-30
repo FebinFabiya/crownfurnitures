@@ -1,0 +1,150 @@
+<section class="h-100" style="background-color: #eee;">
+  <div class="container h-100 py-5" id="rt">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-10" id="all">
+ {{#if cartProducts}}
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3 class="fw-normal mb-0 text-black">My Cart</h3>
+          <div>
+            <p class="mb-0"><span class="text-muted">Sort by:</span> <a href="#!" class="text-body">price <i
+                  class="fas fa-angle-down mt-1"></i></a></p>
+                  {{/if}}
+          </div>
+        </div>
+        {{#each cartProducts}}
+        {{#each this.cartItems}}
+        <form action="/checkout/{{this._id}}" method="get">
+
+          <div class="card rounded-3 mb-4">
+            <div class="card-body p-4 ">
+              <div class="row d-flex justify-content-between align-items-center">
+                <div class="col-md-2 col-lg-2 col-xl-2">
+                  <img src="/images/{{this.products.Image}}" class="img-fluid rounded-3">
+                </div>
+                <div class="col-md-3 col-lg-3 col-xl-3">
+                  <p class="lead fw-normal mb-2">{{this.products.productname}}</p>
+                  {{!-- <p><span class="text-muted">Size: </span>M <span class="text-muted">Color: </span>Grey</p> --}}
+                </div>
+                <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                  <button class="btn btn-link px-2" onclick="changeQuantity('{{this._id}}','{{this.products._id}}',-1)">
+                    <i class="fas fa-minus"></i>
+                  </button>
+
+                  <input id="{{this.products._id}}" min="0" name="quantity" value="{{this.quantity}}" type="number"
+                    class="form-control form-control-sm" />
+
+                  <button class="btn btn-link px-2" onclick="changeQuantity('{{this._id}}','{{this.products._id}}',1)">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                </div>
+                <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                  <h5 class="mb-0" id="king" value="text">{{this.products.price}}</h5>
+                </div>
+                {{!-- {{#each quantity}}
+                {{#each this.quantity}} --}}
+
+
+                {{!-- {{/each}}
+                {{/each}} --}}
+                <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                  <a href="#!" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+          {{/each}}
+          {{/each}}
+             {{#if cartProducts}}
+          <div class="card mb-4">
+            <div class="card-body p-4 d-flex flex-row">
+              <div class="form-outline flex-fill">
+                <input type="text" id="form1" class="form-control form-control-lg" />
+                <label class="form-label" for="form1">Discound code</label>
+              </div>
+              <button type="button" class="btn btn-outline-warning btn-lg ms-3">Apply</button>
+            </div>
+          </div>
+          <div class="card mb-4">
+            <div class="card-body p-4 d-flex flex-row">
+              <div class="form-outline flex-fill" id="form1">
+                <label class="form-label" for="form1">Total Amount</label>
+              </div>
+              <input type="text" class="form-control form-control-lg" value="{{total}}" />
+            </div>
+          </div>
+         
+          <div class="card">
+            <div class="card-body">
+              <button type="submit" class="btn btn-warning btn-block btn-lg">Proceed to Pay</button>
+            </div>
+          </div>
+          {{else}}
+           <div class="d-flex justify-content-center align-items-center mb-4">
+          <h3 class="fw-normal mb-0 text-black">Cart is empty</h3>
+          <div>
+             {{!-- <div class="card">
+            <div class="card-body">
+              <button type="submit"  class="nothing btn btn-warning btn-block btn-lg">Proceed to Pay</button>
+            </div>
+          </div> --}}
+            {{/if}}
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+
+  function multy(cartId, proId, count) {
+
+  }
+  function changeQuantity(cartId, proId, count) {
+
+    let quantity = parseInt(document.getElementById(proId).value);
+    count = parseInt(count)
+    $.ajax({
+      url: '/change-product-quantity',
+      data: {
+        cart: cartId,
+        products: proId,
+        count: count,
+        quantity: quantity
+      },
+      method: 'post',
+      success: (response) => {
+        //('.koko').load('.koko')
+        location.reload()
+        if (response.removeProduct) {
+          alert('product removed from cart')
+
+        } else {
+          document.getElementById(proId).value = quantity + count
+
+        }
+
+      }
+
+    })
+  }
+</script>
+
+
+{{!-- Sweet alert --}}
+{{!-- <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+   $('.nothing').on('click', function (e) {
+            e.preventDefault();
+            var self = $(this);
+            console.log(self.data('title'));
+Swal.fire({
+  title: 'The cart is empty.....,Please select product!',
+  showClass: {
+    popup: 'animate__animated animate__fadeInDown'
+  },
+  hideClass: {
+    popup: 'animate__animated animate__fadeOutUp'
+  }
+})
+   })
+</script> --}}

@@ -1,0 +1,47 @@
+<section>
+    <div class="row">
+        <div class="col-md-4 m-auto mt-5 p-5"
+            style="border-style: solid;border-width: 1px;border-radius: 15px;border-color: silver;">
+            <h2 class="text-center">Add Products</h2>
+            <form action="/admin/add_product" method="post" enctype="multipart/form-data">
+                <div class="col d-flex">
+                    <select name="category" class="form-control me-3">
+                        <option value="none" selected>Choose Category</option>
+                        {{#each category}}
+                        <option>{{this.category}}</option>
+                        {{/each}}
+                    </select>
+
+                </div>
+                <div class="col d-flex">
+                    <select name="subcategory" class="form-control">
+                        <option value="none" selected>Choose Sub-category</option>
+                        {{#each subcategory}}
+                        <option>{{this.subcategory}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+                <label for="">Product</label>
+                <input type="text" name="productname" class="form-control">
+
+
+                <label for="">Price</label>
+                <input type="number" name="price" class="form-control">
+
+                <label for="">Discount</label>
+                <input type="number" name="discount" class="form-control">
+                <div class="form-row mb-4 d-flex">
+                    <div class="col">
+                        <input type="text" id="defaultRegisterFormLastName" class="form-control" placeholder="Stock"
+                            name="stock" />
+                    </div>
+                </div>
+
+                <label for="">Image Upload</label>
+                <input type="file" name="image" class="form-control">
+
+                <button type="submit" class="btn btn-success mt-4">submit</button>
+            </form>
+        </div>
+    </div>
+</section>

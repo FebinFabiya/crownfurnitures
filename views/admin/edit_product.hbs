@@ -1,0 +1,36 @@
+<section>
+  <div class="row">
+    <div class="col-md-4 m-auto mt-5 p-5"
+      style="border-style: solid;border-width: 1px;border-radius: 15px;border-color: silver;">
+      <h2 class="text-center">Edit Product</h2>
+      <form action="/admin/edit-product/{{product._id}}" enctype="multipart/form-data" method="post">
+        <label for="">Product</label>
+        <input type="text" name="productname" class="form-control" value="{{product.productname}}">
+
+        <label for="">Price</label>
+        <input type="text" name="price" class="form-control" value="{{product.price}}">
+
+        <label for="">Discounct</label>
+        <input type="text" name="discount" class="form-control" value="{{product.discount}}">
+        <label for="">Image</label>
+
+        <div class="form-outline mb-4 col-lg-12">
+          <input name="image" accept="image/*" value="" type='file' id="imgInp" class="form-control" />
+          <img id="blah" src="/images/{{product.Image}}" alt="your image" style="width: 100px;height:auto" />
+        </div>
+        <button type="submit" class="btn btn-success mt-4">Edit</button>
+      </form>
+    </div>
+  </div>
+</section>
+<script>
+  // function viewImage(event){
+  // document.getElementById('viewImage').src=URL.createObjectURL(event.target.files[0])
+  // }
+  imgInp.onchange = evt => {
+    const [file] = imgInp.files
+    if (file) {
+      blah.src = URL.createObjectURL(file)
+    }
+  }
+</script>

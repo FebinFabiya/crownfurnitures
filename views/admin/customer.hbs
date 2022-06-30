@@ -1,0 +1,109 @@
+<div class="col py-3">
+    <section>
+        <div class="container mt-5">
+            {{!-- <div class="row mt-5">
+                <a href="/admin/add_product" class="btn btn-success mb-5" style="width: auto; margin-left: auto;">Add
+                    Products</a>
+            </div> --}}
+            <table class="table mt-4" id="userTable">
+                <thead>
+                    <tr>
+                        <th scope="col">User ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">PhoneNo</th>
+                        <th scope="col">Email</th>
+                        {{!-- <th scope="col">Image</th> --}}
+                        <th scope="col">Options</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each userDetails}}
+                    <tr>
+                        <td>{{this._id}}</td>
+                        <td>{{this.name}}</td>
+                        <td>{{this.phone}}</td>
+                        <td>{{this.email}}</td>
+                        {{!-- <td><img src="/images/{{this.Image}}" alt="" style="height:50px ;width: 50px;"> </td> --}}
+                        <td>
+                            <!-- Checked switch -->
+                            <div id="refresh" onClick="refreshPage()">
+                                <!-- <button type="button" onClick="refreshPage()">Close</button> -->
+
+                                {{#if block}}
+                                <a onclick="unBlockUser('{{this._id}}')" class="btn btn-success active" role="button"
+                                    data-bs-toggle="button" aria-pressed="true"><i
+                                        class="fa-solid fa-user-check"></i></a>
+                                {{!-- <a href="/admin/UnBlockuser/{{this._id}}" class="btn btn-primary">UnBlock</a>
+                                --}}
+                                {{else}}
+                                <a onclick="blockUser('{{this._id}}')" class="btn btn-danger" role="button"
+                                    data-bs-toggle="button"><i class="fa-solid fa-user-large-slash"></i></a>
+                                {{!-- <a href="/admin/Blockuser/{{this._id}}" class="btn btn-danger ">Block</a> --}}
+                                {{/if}}
+                            </div>
+
+
+                            {{!-- <a href="/admin/edit-product/{{this._id}}"><i
+                                    class="bx bx-edit-alt fs-5 text-primary px-2"></i></a>
+                            <a href="/admin/delete-product/{{this._id}}"
+                                onclick="return confirm('Are you sure want to delete {{this.productname}} ?')"><i
+                                    class="bx bx-trash text-danger px-2"></i></a> --}}
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <script>
+
+        $(document).ready(function () {
+            $('#userTable').DataTable();
+        });
+        function refreshPage() {
+            window.location.reload();
+        }
+
+        $(function () {
+            // don't cache ajax or content won't be fresh
+            $.ajaxSetup({
+                cache: false
+            });
+            var ajax_load = "<img src='http://automobiles.honda.com/images/current-offers/small-loading.gif' alt='loading...' />";
+            // load() functions
+            var loadUrl = "http://fiddle.jshell.net/deborah/pkmvD/show/";
+            $("#loadbasic").click(function () {
+                $("#result").html(ajax_load).load(loadUrl);
+            });
+            // end  
+        });
+        
+    
+        function unBlockUser(proId) {
+            $.ajax({
+                url: '/admin/unBlockUser/' + proId,
+                method: 'get',
+                success: (response) => {
+                    if (response.status)
+                        alert(response)
+                }
+            })
+        }
+    
+        function blockUser(proId) {
+            $.ajax({
+                url: '/admin/blockUser/' + proId,
+                method: 'get',
+                success: (response) => {
+                }
+            })
+        }
+   
+    
+    </script>
+{{!-- Block UnBlock --}}
+    {{!-- div refresh --}}
+</div>
+</div>
+</div>

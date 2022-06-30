@@ -1,0 +1,146 @@
+<section>
+    <div class="container mt-5 col-md-12">
+
+
+
+        
+
+
+        <table class='table display' id="User_Table">
+            <thead>
+                <tr>
+                    
+                    <th scope="col">Date</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Mobile</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Products</th>
+                    <th scope="col">OrderStatus</th>
+                    <th scope="col">option</th>
+                    
+                    
+
+
+
+
+                </tr>
+            </thead>
+            <tbody>
+               
+                {{#each orders}}
+               
+                
+                <tr>
+                    
+                    <td><span style="font-size:x-small">{{this.OrderPlacedAt}}</span></td>
+                    <td><span style="font-size:x-small">{{this.name}},{{this.address}},{{this.pincode}},{{this.Place}}</span></td>
+                    <td><span style="font-size:x-small">{{this.status}}</span></td>
+                    <td><span style="font-size:x-small">{{this.email}}</span></td>
+                    <td><span style="font-size:x-small">{{this.mobile_no}}</span></td>
+                    <td><span style="font-size:x-small">{{this.totalAmount}}</span></td>
+                    <td><span><a href="/view-orderproducts/{{this._id}}" class="btn  " style="font-size:x-small; color:red">view products
+                            </a></span>
+                        {{!-- {{#each this.productdt}}
+                        <img style="width: 50px; height:50px" src="/images/{{this.Image}}" alt="">
+                        {{/each}} --}}
+                            </td>
+                    
+                     {{#if orderstatus}}
+
+                    <td>
+                        <p class="text-danger">shipped</p>
+                    </td>
+                    {{else}}
+                    <td>
+                        <p class="text-dark">ordered</p>
+                    </td>
+                    {{/if}}
+                    {{!-- <td><span style="font-size:x-small">{{this.orderstatus}}</span></td> --}}
+                    {{!-- {{#if cancel}}
+                   
+                      <td><p class="text-danger">cancelled</p></td>  
+                    {{else}}  
+                    <td><span><a href="/cancel-order/{{this._id}}" class="btn btn-color " style="font-size:x-small">cancel
+                            </a></span>
+                    {{/if}} --}}
+
+                   <td>  <div id="refresh" onClick="refreshPage()">
+                                <!-- <button type="button" onClick="refreshPage()">Close</button> -->
+
+                                {{#if cancel}}
+                                <a onclick="cancelled('{{this._id}}')" class="btn btn-success active" role="button"
+                                    data-bs-toggle="button" aria-pressed="true">cancelled</a>
+                                {{!-- <a href="/admin/UnBlockuser/{{this._id}}" class="btn btn-primary">UnBlock</a>
+                                --}}
+                                {{else}}
+                                <a onclick="cancel('{{this._id}}')" class="btn btn-danger" role="button"
+                                    data-bs-toggle="button">cancel</a>
+                                {{!-- <a href="/admin/Blockuser/{{this._id}}" class="btn btn-danger ">Block</a> --}}
+                                {{/if}}
+                            </div>
+</td>
+{{/each}}
+                
+                   
+                   
+                   
+                   
+
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</section>
+
+
+
+
+<script>
+       
+        $(document).ready(function () {
+            $('#userTable').DataTable();
+        });
+        function refreshPage() {
+            window.location.reload();
+        }
+
+        $(function () {
+            // don't cache ajax or content won't be fresh
+            $.ajaxSetup({
+                cache: false
+            });
+            var ajax_load = "<img src='http://automobiles.honda.com/images/current-offers/small-loading.gif' alt='loading...' />";
+            // load() functions
+            var loadUrl = "http://fiddle.jshell.net/deborah/pkmvD/show/";
+            $("#loadbasic").click(function () {
+                $("#result").html(ajax_load).load(loadUrl);
+            });
+            // end  
+        });
+        
+    
+        function cancelled(proId) {
+            $.ajax({
+                url: '/cancelled/' + proId,
+                method: 'get',
+                success: (response) => {
+                    if (response.status)
+                        alert(response)
+                }
+            })
+        }
+    
+        function cancel(proId) {
+            $.ajax({
+                url: '/cancel/' + proId,
+                method: 'get',
+                success: (response) => {
+                }
+            })
+        }
+   
+    
+    </script>

@@ -1,0 +1,106 @@
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+<script
+  src="https://kit.fontawesome.com/a04c146c8c.js"
+  crossorigin="anonymous"
+></script>
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+  crossorigin="anonymous"
+/>
+<section class=" bg-image" style="background-color:#ff004c79">
+  <div class="container ">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-8">
+        <div class="card bg-light text-danger" style="border-radius: 1rem;">
+          <div class="card-body px-5">
+            <div class="image-fluid">
+              <a href="/">
+                <img
+                  class="mx-auto d-block"
+                  src="images/crownchairlogo.PNG"
+                  alt=""
+                />
+              </a>
+            </div>
+
+            <div class="mb-md-5 mt-md-4">
+              {{!-- <form action="/admin/addBrands" method="post">
+                <h6 class="fw-bold mb-2">Add Brand name:</h6>
+                <div class="form-outline d-flex">
+                  <input
+                    type="text"
+                    name="brand"
+                    id="typePasswordX"
+                    class="form-control form-control-lg me-2"
+                    placeholder="Brand name"
+                  />
+                  <button
+                    class="btn btn-outline-dark btn-lg px-5 mt-2"
+                    type="submit"
+                  >Add</button>
+                </div>
+                <p>{{Err}}</p>
+
+              </form> --}}
+
+              <form action="/admin/addcategory" method="post">
+                <h6 class="fw-bold mb-2">Add Category:</h6>
+                <div class="form-outline d-flex">
+                  <input
+                    type="text"
+                    name="category"
+                    id="typePasswordX"
+                    class="form-control form-control-lg me-2"
+                    placeholder="Category"
+                  />
+                  <button
+                    class="btn btn-outline-dark btn-lg px-5 mt-2"
+                    type="submit"
+                  >Add</button>
+                </div>
+                <p>{{Errc}}</p>
+              </form>
+
+             
+                <h6 class="fw-bold mb-2">Add SubCategory:</h6>
+                <div class="pb-2">                
+                  <select name="categoryname" class="form-control-sm">
+                  <option value="none" selected>Choose Category</option>
+                  {{#each categories}}
+                    <option>{{this.category}}</option>
+                  {{/each}}
+                </select>
+                </div>
+ <form action="/admin/addSubcategory" method="post">
+                <div class="form-outline d-flex">
+                  <input
+                    type="text"
+                    name="subcategory"
+                    id="typePasswordX"
+                    class="form-control form-control-lg me-2"
+                    placeholder="Subcategory"
+                  />
+                  <button
+                    class="btn btn-outline-dark btn-lg px-5 mt-2"
+                    type="submit"
+                  >Add</button>
+                </div>
+
+                <p>{{Err}}</p>
+
+              </form>
+              <a href="/admin/add_product" class="btn btn-success d-flex justify-content-center">Click here to add Products</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+  crossorigin="anonymous"
+></script>'
